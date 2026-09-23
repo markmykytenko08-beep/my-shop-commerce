@@ -5,8 +5,17 @@ import { useCartStore } from "../store/cartStore";
 
 function Cart() {
   const items = useCartStore((state) => state.items);
+
   const removeFromCart = useCartStore(
     (state) => state.removeFromCart
+  );
+
+  const increaseQuantity = useCartStore(
+    (state) => state.increaseQuantity
+  );
+
+  const decreaseQuantity = useCartStore(
+    (state) => state.decreaseQuantity
   );
 
   if (items.length === 0) {
@@ -59,9 +68,25 @@ function Cart() {
                   €{item.price.toFixed(2)}
                 </p>
 
-                <p className="mt-1 text-sm text-gray-500">
-                  Quantity: {item.quantity}
-                </p>
+                <div className="mt-3 flex items-center gap-3">
+                  <button
+                    onClick={() => decreaseQuantity(item.id)}
+                    className="flex h-8 w-8 items-center justify-center rounded border hover:bg-gray-100"
+                  >
+                    −
+                  </button>
+
+                  <span className="w-6 text-center font-medium">
+                    {item.quantity}
+                  </span>
+
+                  <button
+                    onClick={() => increaseQuantity(item.id)}
+                    className="flex h-8 w-8 items-center justify-center rounded border hover:bg-gray-100"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
 
               <button
