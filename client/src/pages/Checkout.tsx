@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Container from "../components/Container";
 import Button from "../components/Button";
 import { useCartStore } from "../store/cartStore";
@@ -5,10 +6,16 @@ import { useCartStore } from "../store/cartStore";
 function Checkout() {
   const items = useCartStore((state) => state.items);
 
+  const clearCart = useCartStore(
+    (state) => state.clearCart
+  );
+
   const total = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   return (
     <section className="py-16">
@@ -22,8 +29,28 @@ function Checkout() {
             Enter your information to complete your order.
           </p>
 
+          {orderPlaced && (
+            <div className="mt-8 rounded-lg border border-green-300 bg-green-50 p-4">
+              <p className="font-medium text-green-800">
+                Order placed successfully!
+              </p>
+
+              <p className="mt-1 text-sm text-green-700">
+                Thank you for your purchase.
+              </p>
+            </div>
+          )}
+
           <div className="mt-10 grid gap-10 md:grid-cols-2">
-            <form className="space-y-8">
+            <form
+              className="space-y-8"
+              onSubmit={(e) => {
+                e.preventDefault();
+
+                setOrderPlaced(true);
+                clearCart();
+              }}
+            >
               <div>
                 <h2 className="mb-4 text-xl font-semibold">
                   Contact information
@@ -94,8 +121,7 @@ function Checkout() {
                     Payment method
                   </p>
 
-                  <p className="mt-2 text-sm text-gray-500">
-                    Payment integration will be added later.
+                  <p className="mt-2 text-sm text-gray-500">Payment integration will be added later.
                   </p>
                 </div>
               </div>
@@ -120,7 +146,9 @@ function Checkout() {
                       src={item.image}
                       alt={item.name}
                       className="h-16 w-16 rounded-lg object-cover"
-                    /><div className="flex-1">
+                    />
+
+                    <div className="flex-1">
                       <p className="font-medium">
                         {item.name}
                       </p>
