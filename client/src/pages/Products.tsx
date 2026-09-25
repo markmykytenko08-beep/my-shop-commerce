@@ -1,7 +1,19 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import Container from "../components/Container";
 import ProductCard from "../components/ProductCard";
-import { products } from "../data/products";
+import { api } from "../services/api";
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  stock: number;
+  description: string;
+  image: string;
+};
 
 function Products() {
   const [search, setSearch] = useState("");
@@ -11,6 +23,19 @@ function Products() {
 
   const productsPerPage = 4;
 
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+  } = useQuery<Product[]>({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const response = await api.get("/products");
+
+      return response.data;
+    },
+  });
+
   const filteredProducts = products
     .filter((product) => {
       const matchesSearch = product.name
@@ -18,7 +43,8 @@ function Products() {
         .includes(search.toLowerCase());
 
       const matchesCategory =
-        category === "All" || product.category === category;
+        category === "All" ||
+        product.category === category;
 
       return matchesSearch && matchesCategory;
     })
@@ -49,15 +75,44 @@ function Products() {
     startIndex + productsPerPage
   );
 
-  const totalPages = Math.ceil(
-    filteredProducts.length / productsPerPage
+  const totalPages = Math.max(
+    1,
+    Math.ceil(
+      filteredProducts.length / productsPerPage
+    )
   );
+
+  if (isLoading) {
+    return (
+      <section className="py-16">
+        <Container>
+          <p className="text-gray-600">
+            Loading products...
+          </p>
+        </Container>
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="py-16">
+        <Container>
+          <p className="text-red-600">
+            Failed to load products.
+          </p>
+        </Container>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16">
       <Container>
         <div className="mb-10">
-          <h1 className="text-4xl font-bold">Products</h1>
+          <h1 className="text-4xl font-bold">
+            Products
+          </h1>
 
           <p className="mt-3 text-gray-600">
             Browse our collection.
@@ -69,38 +124,56 @@ function Products() {
             type="text"
             placeholder="Search products..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
             className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
           />
         </div>
 
         <div className="mb-8 flex flex-wrap gap-3">
-          {["All", "Electronics", "Sports"].map((item) => (
-            <button
-              key={item}
-              onClick={() => setCategory(item)}
-              className={`rounded-lg border px-4 py-2 ${
-                category === item
-                  ? "bg-black text-white"
-                  : "bg-white hover:bg-gray-100"
-              }`}
-            >
-              {item}
-            </button>
-          ))}
+          {["All", "Electronics", "Sports"].map(
+            (item) => (
+              <button
+                key={item}
+                onClick={() => {
+                  setCategory(item);
+                  setPage(1);
+                }}
+                className={`rounded-lg border px-4 py-2 ${
+                  category === item
+                    ? "bg-black text-white"
+                    : "bg-white hover:bg-gray-100"
+                }`}
+              >
+                {item}
+              </button>
+            )
+          )}
         </div>
 
         <div className="mb-8">
           <select
             value={sort}
-            onChange={(e) => setSort(e.target.value)}
+            onChange={(e) => {
+              setSort(e.target.value);
+              setPage(1);
+            }}
             className="rounded-lg border border-gray-300 px-4 py-2"
           >
             <option value="default">Sort by</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="name-asc">Name: A to Z</option>
-            <option value="name-desc">Name: Z to A</option>
+            <option value="price-asc">
+              Price: Low to High
+            </option>
+            <option value="price-desc">
+              Price: High to Low
+            </option><option value="name-asc">
+              Name: A to Z
+            </option>
+            <option value="name-desc">
+              Name: Z to A
+            </option>
           </select>
         </div>
 
