@@ -1,0 +1,137 @@
+// use prisma-8
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("USER")
+
+  cart      Cart?
+  orders    Order[]
+  reviews   Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt temporal.updatedAtString()
+}
+
+model Product {
+  id          Int            @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  stock       Int            @default(0)
+  image       String
+
+  categoryId  Int
+  category    Category       @relation(fields: [categoryId], references: [id])
+
+  images      ProductImage[]
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  reviews     Review[]
+
+  createdAt   DateTime       @default(now())
+  updatedAt   temporal.updatedAtString()
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  products  Product[]
+
+  createdAt DateTime  @default(now())
+  updatedAt temporal.updatedAtString()
+}
+
+model ProductImage {
+  id        Int      @id @default(autoincrement())
+  url       String
+
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
+
+model Cart {
+  id        Int        @id @default(autoincrement())
+
+  userId    Int        @unique
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  items     CartItem[]
+
+  createdAt DateTime   @default(now())
+  updatedAt temporal.updatedAtString()
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+
+  cartId    Int
+  productId Int
+  quantity  Int      @default(1)
+
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt temporal.updatedAtString()
+
+  @@unique([cartId, productId])
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  userId      Int
+
+  status      String      @default("PENDING")
+  total       Float
+
+  firstName   String
+  lastName    String
+  email       String
+
+  street      String
+  city        String
+  postalCode  String
+  country     String
+
+  user        User        @relation(fields: [userId], references: [id])
+  items       OrderItem[]
+
+  createdAt   DateTime    @default(now())
+  updatedAt   temporal.updatedAtString()
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+
+  orderId   Int
+  productId Int
+  quantity  Int
+  price     Float
+
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+
+  userId    Int
+  productId Int
+  rating    Int
+  comment   String
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt temporal.updatedAtString()
+
+  @@unique([userId, productId])
+}
