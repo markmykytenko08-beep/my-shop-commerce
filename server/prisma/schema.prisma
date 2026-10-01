@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  email     String   @unique
+  id        Int      @id @default(autoincrement())
+  name      String
+  password  String
+  role      String   @default("USER")
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  cart      Cart?
+  orders    Order[]
+  reviews   Review[]
+}
+
+model Product {
+  categoryId  Int
+  createdAt   DateTime       @default(now()) @db.Timestamptz(6)
+  description String
+  id          Int            @id @default(autoincrement())
+  image       String
+  name        String
+  price       Float
+  stock       Int            @default(0)
+  updatedAt   DateTime       @updatedAt @db.Timestamptz(6)
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  category    Category       @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  images      ProductImage[]
+  reviews     Review[]
+
+  @@index([categoryId], map: "Product_categoryId_idx_15c304f2")
+}
+
+model Category {
+  createdAt DateTime  @default(now()) @db.Timestamptz(6)
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  updatedAt DateTime  @updatedAt @db.Timestamptz(6)
+  products  Product[]
+}
+
+model ProductImage {
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  id        Int      @id @default(autoincrement())
+  productId Int
+  url       String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([productId], map: "ProductImage_productId_idx_5858600a")
+}
+
+model Cart {
+  createdAt DateTime   @default(now()) @db.Timestamptz(6)
+  id        Int        @id @default(autoincrement())
+  updatedAt DateTime   @updatedAt @db.Timestamptz(6)
+  userId    Int        @unique
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  items     CartItem[]
+}
+
+model CartItem {
+  cartId    Int
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  id        Int      @id @default(autoincrement())
+  productId Int
+  quantity  Int      @default(1)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([cartId, productId])
+  @@index([cartId], map: "CartItem_cartId_idx_79939295")
+  @@index([productId], map: "CartItem_productId_idx_5858600a")
+}
+
+model Order {
+  city       String
+  country    String
+  createdAt  DateTime    @default(now()) @db.Timestamptz(6)
+  email      String
+  firstName  String
+  id         Int         @id @default(autoincrement())
+  lastName   String
+  postalCode String
+  status     String      @default("PENDING")
+  street     String
+  total      Float
+  updatedAt  DateTime    @updatedAt @db.Timestamptz(6)
+  userId     Int
+  user       User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  items      OrderItem[]
+
+  @@index([userId], map: "Order_userId_idx_a489d58a")
+}
+
+model OrderItem {
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  price     Float
+  productId Int
+  quantity  Int
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([orderId], map: "OrderItem_orderId_idx_d284871b")
+  @@index([productId], map: "OrderItem_productId_idx_5858600a")
+}
+
+model Review {
+  comment   String
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  id        Int      @id @default(autoincrement())
+  productId Int
+  rating    Int
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([userId, productId])
+  @@index([productId], map: "Review_productId_idx_5858600a")
+  @@index([userId], map: "Review_userId_idx_a489d58a")
+}
