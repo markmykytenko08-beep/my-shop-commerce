@@ -16,7 +16,28 @@ function Checkout() {
   );
 
   const [orderPlaced, setOrderPlaced] = useState(false);
+    if (items.length === 0 && !orderPlaced) {
+  return (
+    <section className="py-16">
+      <Container>
+        <div className="mx-auto max-w-4xl">
+          <h1 className="text-4xl font-bold">Checkout</h1>
 
+          <p className="mt-6 text-gray-600">
+            Your cart is empty. Add some products before checking out.
+          </p>
+
+          <a
+            href="/products"
+            className="mt-6 inline-block rounded-lg bg-black px-6 py-3 text-white"
+          >
+            Browse Products
+          </a>
+        </div>
+      </Container>
+    </section>
+  );
+}
   return (
     <section className="py-16">
       <Container>
