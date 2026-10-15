@@ -1,21 +1,62 @@
-import { Link } from "react-router-dom";
+import { useState, type FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import Container from "../components/Container";
 import Button from "../components/Button";
+import { api } from "../services/api";
+import { useAuthStore } from "../store/authStore";
 
 function Login() {
+  const navigate = useNavigate();
+  const setAuth = useAuthStore((state) => state.setAuth);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const response = await api.post("/auth/login", {
+        email: email.trim(),
+        password,
+      });
+
+      const { user, token } = response.data;
+
+      setAuth(user, token);
+      navigate("/");
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(
+          err.response?.data?.message ??
+            "Login failed. Please check your credentials."
+        );
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <section className="py-16">
       <Container>
         <div className="mx-auto max-w-md">
-          <h1 className="text-4xl font-bold">
-            Login
-          </h1>
+          <h1 className="text-4xl font-bold">Welcome back</h1>
 
           <p className="mt-3 text-gray-600">
-            Sign in to your account.
+            Login to your account to continue shopping.
           </p>
 
-          <form className="mt-8 space-y-6">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div>
               <label
                 htmlFor="email"
@@ -27,7 +68,11 @@ function Login() {
               <input
                 id="email"
                 type="email"
+                autoComplete="email"
                 placeholder="you@example.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
               />
             </div>
@@ -43,13 +88,26 @@ function Login() {
               <input
                 id="password"
                 type="password"
-                placeholder="Enter your password"
+                autoComplete="current-password"
+                placeholder="Your password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
               />
             </div>
 
+            {error && (
+              <p
+                role="alert"
+                className="rounded-lg bg-red-50 p-3 text-sm text-red-700"
+              >
+                {error}
+              </p>
+            )}
+
             <Button>
-              Login
+              {isLoading ? "Logging in..." : "Login"}
             </Button>
           </form>
 
@@ -59,7 +117,7 @@ function Login() {
               to="/register"
               className="font-medium text-black underline"
             >
-              Register
+              Create one
             </Link>
           </p>
         </div>

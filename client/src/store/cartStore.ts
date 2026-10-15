@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type CartItem = {
+export type CartItem = {
   id: number;
   name: string;
   price: number;
@@ -17,11 +17,14 @@ type CartStore = {
   increaseQuantity: (id: number) => void;
   decreaseQuantity: (id: number) => void;
   clearCart: () => void;
+
+  getTotalItems: () => number;
+  getTotalPrice: () => number;
 };
 
 export const useCartStore = create<CartStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       items: [],
 
       addToCart: (item) =>
@@ -86,6 +89,18 @@ export const useCartStore = create<CartStore>()(
         })),
 
       clearCart: () => set({ items: [] }),
+
+      getTotalItems: () =>
+        get().items.reduce(
+          (total, item) => total + item.quantity,
+          0
+        ),
+
+      getTotalPrice: () =>
+        get().items.reduce(
+          (total, item) => total + item.price * item.quantity,
+          0
+        ),
     }),
     {
       name: "ecommerce-cart",

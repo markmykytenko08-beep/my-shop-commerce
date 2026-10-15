@@ -1,28 +1,22 @@
-# Welcome to Prisma ORM!
+# Welcome to Prisma ORM 8!
 
-Prisma ORM lets you query your database in simple, easy-to-read TypeScript. Define what your data looks like, and Prisma ORM gives you a fully typed client — with autocomplete for every table, column, and relation.
-
-This project is set up for PostgreSQL. Prisma ORM also supports other databases.
+Prisma ORM lets you query your database in simple, easy-to-read TypeScript. This project keeps its Prisma 7 schema and migrations, and Prisma 8 reads that schema as its contract source, so both run side by side while you move your code over.
 
 ## Requirements
 
 - **PostgreSQL 15 or newer.** Older servers are not supported. Run `SELECT version()` against your server to verify.
 - The CLI never connects to your database without explicit consent. Pass `--probe-db` to `npx prisma orm init` if you want `init` to verify the server version itself.
 
-## Your data contract
+## Your contract source
 
-Your data contract is the heart of your application. It lives at [`src/prisma/contract.prisma`](src/prisma/contract.prisma) and describes your models:
+Your contract source is your Prisma 7 schema at [`prisma/schema.prisma`](prisma/schema.prisma). Prisma 7 keeps owning it: edit it as before and migrate with `prisma7 migrate dev`. Prisma 8 compiles it into two companion files under `src/prisma/`:
 
-```prisma
-model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  username String?
-  name     String?
-}
-```
+- **`contract.json`** — this tells your application what models exist, just like `package-lock.json` tells your package manager what dependencies your project has
+- **`contract.d.ts`** — this powers autocomplete and type checking in your editor
 
-Every model you define in your contract can be queried from your app. Your editor will autocomplete the query methods and show you what type each model field is:
+Commit both files to git. When the schema changes, run `npx prisma contract emit` to update them.
+
+Every model in your schema can be queried from your app through the Prisma 8 client:
 
 ```typescript
 import { db } from './src/prisma/db';
@@ -30,32 +24,21 @@ import { db } from './src/prisma/db';
 const user = await db.orm.public.User
   .where({ email: 'alice@example.com' })
   .first();
-
-// Your editor will show the type of user as
-// { id: number; email: string; username: string | null; name: string | null; createdAt: Date; posts: Post[] } | null
 ```
-
-Your contract has two companion files in the same directory:
-
-- **`contract.json`** — this tells your application what models exist, just like `package-lock.json` tells your package manager what dependencies your project has
-- **`contract.d.ts`** — this powers autocomplete and type checking in your editor
-
-Commit both files to git. When you change your contract, run `npx prisma contract emit` to update them.
-
-If you use a framework like Next.js or Vite, the Prisma ORM plugin will do this for you automatically.
 
 ## Configuration
 
-[`prisma.config.ts`](prisma.config.ts) tells the CLI where your contract lives and how to connect to your database. It loads environment variables from `.env` automatically:
+[`prisma.config.ts`](prisma.config.ts) tells the Prisma 8 CLI where your contract source lives and how to connect to your database. Prisma 7 reads its own config from `prisma7.config.ts`.
 
 ```typescript
 import 'dotenv/config';
 import { definePrismaConfig } from '@prisma/cli-engine';
-import { defineConfig as ormConfig } from '@prisma/orm-postgres/config';
+import { defineConfig as ormConfig, prisma7Schema } from '@prisma/orm-postgres/config';
 
 export default definePrismaConfig({
   orm: ormConfig({
-    contract: './src/prisma/contract.prisma',
+    contract: prisma7Schema('prisma/schema.prisma'),
+    output: 'src/prisma',
     db: {
       connection: process.env['DATABASE_URL']!,
     },
@@ -63,44 +46,39 @@ export default definePrismaConfig({
 });
 ```
 
-Notice the `DATABASE_URL` above? It's defined in your [`.env`](./.env) file:
+`DATABASE_URL` is read from your [`.env`](./.env) file:
 
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/mydb"
 ```
 
-You can customize how your environment variables are loaded by changing or removing the `import 'dotenv/config'` line.
+## The transition loop
+
+1. Run `npx prisma db sign` once so Prisma 8 knows the database matches the contract.
+2. Move your routes to the Prisma 8 client in [`src/prisma/db.ts`](src/prisma/db.ts) one at a time.
+3. After each `prisma7 migrate dev`, run `npx prisma contract emit` and then `npx prisma db sign`.
 
 ## Quick reference
 
 ### Commands
 
 ```bash
-npx prisma contract emit       # Update contract.json and contract.d.ts
-npx prisma db init             # Create tables in the database
-npx prisma migration status    # Show migration status
+npx prisma contract emit       # Update contract.json and contract.d.ts from the schema
+npx prisma db sign             # Record that the database matches the contract
+prisma7 migrate dev            # Migrate with Prisma 7, as before
 ```
 
 ### Files
 
 | File | Purpose |
 |---|---|
-| [`src/prisma/contract.prisma`](src/prisma/contract.prisma) | Your data contract — define your models here |
-| [`prisma.config.ts`](prisma.config.ts) | CLI configuration |
+| [`prisma/schema.prisma`](prisma/schema.prisma) | Your Prisma 7 schema — the contract source |
+| [`prisma.config.ts`](prisma.config.ts) | Prisma 8 CLI configuration |
+| [`prisma7.config.ts`](prisma7.config.ts) | Prisma 7 CLI configuration |
 | [`src/prisma/db.ts`](src/prisma/db.ts) | Database client — `import { db } from './src/prisma/db'` |
 | `src/prisma/contract.json` | Compiled contract (generated) |
 | `src/prisma/contract.d.ts` | Contract types (generated) |
 
-### Workflow
-
-1. Edit [`src/prisma/contract.prisma`](src/prisma/contract.prisma) to add or change models.
-2. Run `npx prisma contract emit` to regenerate the contract.
-3. Query your models — your IDE will autocomplete everything.
-
 ## Monorepo notes (pnpm workspaces)
 
-If this project lives inside a pnpm workspace, a few things are worth knowing:
-
-- **Catalogs.** When the workspace's `pnpm-workspace.yaml` defines a `catalogs` entry for `prisma` or `@prisma/orm-postgres`, pnpm uses the catalog version everywhere — `init` does too. If you wanted the published `latest` instead, update or remove the catalog entry, then re-run `pnpm install`.
-- **`pnpm dlx`.** `pnpm dlx prisma@latest orm init …` works in any directory. Inside a workspace, pnpm still resolves dependencies through the workspace's catalog/overrides rather than the registry; expect the installed Prisma ORM packages to reflect the workspace's catalog rather than `latest`.
-- **`pnpm` → `npm` fallback.** If `pnpm` ever fails to install Prisma ORM with a `workspace:*` or `catalog:` resolution error (a leak in a published artefact), `init` falls back to `npm install` and surfaces a warning. Once the offending package republishes a clean version you can switch back with `pnpm install`.
+If this project lives inside a pnpm workspace, `pnpm-workspace.yaml` catalogs for `prisma` or `@prisma/orm-postgres` take precedence over `latest`; update or remove the catalog entry and re-run `pnpm install` if you wanted the published version.

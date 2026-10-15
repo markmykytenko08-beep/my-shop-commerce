@@ -51,7 +51,10 @@
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-temporal@1",
-                  "kind": "scalar"
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "id": {
@@ -64,8 +67,11 @@
               "updatedAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
-                  "kind": "scalar"
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "userId": {
@@ -141,7 +147,10 @@
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-temporal@1",
-                  "kind": "scalar"
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "id": {
@@ -168,8 +177,11 @@
               "updatedAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
-                  "kind": "scalar"
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               }
             },
@@ -238,7 +250,10 @@
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-temporal@1",
-                  "kind": "scalar"
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "id": {
@@ -258,8 +273,11 @@
               "updatedAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
-                  "kind": "scalar"
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               }
             },
@@ -319,7 +337,10 @@
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-temporal@1",
-                  "kind": "scalar"
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "email": {
@@ -381,8 +402,11 @@
               "updatedAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
-                  "kind": "scalar"
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "userId": {
@@ -478,7 +502,10 @@
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-temporal@1",
-                  "kind": "scalar"
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "id": {
@@ -589,7 +616,10 @@
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-temporal@1",
-                  "kind": "scalar"
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "description": {
@@ -637,8 +667,11 @@
               "updatedAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
-                  "kind": "scalar"
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               }
             },
@@ -760,7 +793,10 @@
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-temporal@1",
-                  "kind": "scalar"
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "id": {
@@ -835,7 +871,10 @@
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-temporal@1",
-                  "kind": "scalar"
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "id": {
@@ -862,8 +901,11 @@
               "updatedAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
-                  "kind": "scalar"
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "userId": {
@@ -942,7 +984,10 @@
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-temporal@1",
-                  "kind": "scalar"
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "email": {
@@ -983,8 +1028,11 @@
               "updatedAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
-                  "kind": "scalar"
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               }
             },
@@ -1082,7 +1130,10 @@
                     "kind": "function"
                   },
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "id": {
                   "codecId": "pg/int4@1",
@@ -1094,9 +1145,12 @@
                   "nullable": false
                 },
                 "updatedAt": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-temporal@1",
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "userId": {
                   "codecId": "pg/int4@1",
@@ -1123,19 +1177,21 @@
                   }
                 }
               ],
-              "indexes": [],
+              "indexes": [
+                {
+                  "columns": [
+                    "userId"
+                  ],
+                  "name": "Cart_userId_key",
+                  "unique": true
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "id"
                 ]
               },
-              "uniques": [
-                {
-                  "columns": [
-                    "userId"
-                  ]
-                }
-              ]
+              "uniques": []
             },
             "CartItem": {
               "columns": {
@@ -1151,7 +1207,10 @@
                     "kind": "function"
                   },
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "id": {
                   "codecId": "pg/int4@1",
@@ -1177,9 +1236,12 @@
                   "nullable": false
                 },
                 "updatedAt": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-temporal@1",
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "foreignKeys": [
@@ -1224,15 +1286,21 @@
                     "cartId"
                   ],
                   "name": "CartItem_cartId_idx_79939295",
-                  "prefix": "CartItem_cartId_idx",
                   "unique": false
+                },
+                {
+                  "columns": [
+                    "cartId",
+                    "productId"
+                  ],
+                  "name": "CartItem_cartId_productId_key",
+                  "unique": true
                 },
                 {
                   "columns": [
                     "productId"
                   ],
                   "name": "CartItem_productId_idx_5858600a",
-                  "prefix": "CartItem_productId_idx",
                   "unique": false
                 }
               ],
@@ -1241,14 +1309,7 @@
                   "id"
                 ]
               },
-              "uniques": [
-                {
-                  "columns": [
-                    "cartId",
-                    "productId"
-                  ]
-                }
-              ]
+              "uniques": []
             },
             "Category": {
               "columns": {
@@ -1259,7 +1320,10 @@
                     "kind": "function"
                   },
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "id": {
                   "codecId": "pg/int4@1",
@@ -1276,25 +1340,30 @@
                   "nullable": false
                 },
                 "updatedAt": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-temporal@1",
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "foreignKeys": [],
-              "indexes": [],
+              "indexes": [
+                {
+                  "columns": [
+                    "name"
+                  ],
+                  "name": "Category_name_key",
+                  "unique": true
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "id"
                 ]
               },
-              "uniques": [
-                {
-                  "columns": [
-                    "name"
-                  ]
-                }
-              ]
+              "uniques": []
             },
             "Order": {
               "columns": {
@@ -1315,7 +1384,10 @@
                     "kind": "function"
                   },
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "email": {
                   "codecId": "pg/text@1",
@@ -1366,9 +1438,12 @@
                   "nullable": false
                 },
                 "updatedAt": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-temporal@1",
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "userId": {
                   "codecId": "pg/int4@1",
@@ -1400,7 +1475,6 @@
                     "userId"
                   ],
                   "name": "Order_userId_idx_a489d58a",
-                  "prefix": "Order_userId_idx",
                   "unique": false
                 }
               ],
@@ -1420,7 +1494,10 @@
                     "kind": "function"
                   },
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "id": {
                   "codecId": "pg/int4@1",
@@ -1493,7 +1570,6 @@
                     "orderId"
                   ],
                   "name": "OrderItem_orderId_idx_d284871b",
-                  "prefix": "OrderItem_orderId_idx",
                   "unique": false
                 },
                 {
@@ -1501,7 +1577,6 @@
                     "productId"
                   ],
                   "name": "OrderItem_productId_idx_5858600a",
-                  "prefix": "OrderItem_productId_idx",
                   "unique": false
                 }
               ],
@@ -1526,7 +1601,10 @@
                     "kind": "function"
                   },
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "description": {
                   "codecId": "pg/text@1",
@@ -1567,9 +1645,12 @@
                   "nullable": false
                 },
                 "updatedAt": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-temporal@1",
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "foreignKeys": [
@@ -1596,7 +1677,6 @@
                     "categoryId"
                   ],
                   "name": "Product_categoryId_idx_15c304f2",
-                  "prefix": "Product_categoryId_idx",
                   "unique": false
                 }
               ],
@@ -1616,7 +1696,10 @@
                     "kind": "function"
                   },
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "id": {
                   "codecId": "pg/int4@1",
@@ -1663,7 +1746,6 @@
                     "productId"
                   ],
                   "name": "ProductImage_productId_idx_5858600a",
-                  "prefix": "ProductImage_productId_idx",
                   "unique": false
                 }
               ],
@@ -1688,7 +1770,10 @@
                     "kind": "function"
                   },
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "id": {
                   "codecId": "pg/int4@1",
@@ -1710,9 +1795,12 @@
                   "nullable": false
                 },
                 "updatedAt": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-temporal@1",
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "userId": {
                   "codecId": "pg/int4@1",
@@ -1721,23 +1809,6 @@
                 }
               },
               "foreignKeys": [
-                {
-                  "onDelete": "cascade",
-                  "source": {
-                    "columns": [
-                      "userId"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "Review"
-                  },
-                  "target": {
-                    "columns": [
-                      "id"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "User"
-                  }
-                },
                 {
                   "onDelete": "cascade",
                   "source": {
@@ -1754,6 +1825,23 @@
                     "namespaceId": "public",
                     "tableName": "Product"
                   }
+                },
+                {
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "userId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Review"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "User"
+                  }
                 }
               ],
               "indexes": [
@@ -1762,7 +1850,6 @@
                     "productId"
                   ],
                   "name": "Review_productId_idx_5858600a",
-                  "prefix": "Review_productId_idx",
                   "unique": false
                 },
                 {
@@ -1770,8 +1857,15 @@
                     "userId"
                   ],
                   "name": "Review_userId_idx_a489d58a",
-                  "prefix": "Review_userId_idx",
                   "unique": false
+                },
+                {
+                  "columns": [
+                    "userId",
+                    "productId"
+                  ],
+                  "name": "Review_userId_productId_key",
+                  "unique": true
                 }
               ],
               "primaryKey": {
@@ -1779,14 +1873,7 @@
                   "id"
                 ]
               },
-              "uniques": [
-                {
-                  "columns": [
-                    "userId",
-                    "productId"
-                  ]
-                }
-              ]
+              "uniques": []
             },
             "User": {
               "columns": {
@@ -1797,7 +1884,10 @@
                     "kind": "function"
                   },
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 },
                 "email": {
                   "codecId": "pg/text@1",
@@ -1833,25 +1923,30 @@
                   "nullable": false
                 },
                 "updatedAt": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-temporal@1",
                   "nativeType": "timestamptz",
-                  "nullable": false
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 6
+                  }
                 }
               },
               "foreignKeys": [],
-              "indexes": [],
+              "indexes": [
+                {
+                  "columns": [
+                    "email"
+                  ],
+                  "name": "User_email_key",
+                  "unique": true
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "id"
                 ]
               },
-              "uniques": [
-                {
-                  "columns": [
-                    "email"
-                  ]
-                }
-              ]
+              "uniques": []
             }
           }
         },
@@ -1859,19 +1954,19 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "9a2c316b7dce78e7fda6b43a21d75ad30f3f0e311f45afe59be99adffee68507"
+    "storageHash": "13aface1b159cfff94083d43871866fead1d0621e49cd01b20814e3a55557d3d"
   },
   "execution": {
-    "executionHash": "738cb5437d5b6144c5d28eb37fbf2fdb4185b6c0b651beb6c37e551150afd03b",
+    "executionHash": "aa6fe736f3fc0c08859d3bb6cc19ce66c57e0cf35c1476b98a2915b30b31aa03",
     "mutations": {
       "defaults": [
         {
           "onCreate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "onUpdate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "ref": {
@@ -1882,11 +1977,11 @@
         },
         {
           "onCreate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "onUpdate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "ref": {
@@ -1897,11 +1992,11 @@
         },
         {
           "onCreate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "onUpdate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "ref": {
@@ -1912,11 +2007,11 @@
         },
         {
           "onCreate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "onUpdate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "ref": {
@@ -1927,11 +2022,11 @@
         },
         {
           "onCreate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "onUpdate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "ref": {
@@ -1942,11 +2037,11 @@
         },
         {
           "onCreate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "onUpdate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "ref": {
@@ -1957,11 +2052,11 @@
         },
         {
           "onCreate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "onUpdate": {
-            "id": "timestampNow",
+            "id": "instantNow",
             "kind": "generator"
           },
           "ref": {
